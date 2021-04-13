@@ -1,8 +1,9 @@
 #include "NodeSharkIO.h"
 #include "NS_XF.h"
-/* local var for keeping the record of comms api instance */
+#include "NodeSharkComms.h"
+
+static ns_io_driver_t *g_ns_io;
 static ns_comms_api_instance_t *g_ns_comms;
-static ns_io_driver_t *g_ns_io; 
 /* Node shark Handler */
 /* ns_run is should be executed by user in a loop to handle all the event received by phy or wireless protocol ns_recv()
  ns_run then parse the packet NodeShark_IO_t to perform the action to the IO */
@@ -16,6 +17,8 @@ void ns_run()
     static NodeShark_IO_t data;
     /* check if data is received */
     
+    /*Get comms driver */
+    g_ns_comms = ns_get_comm_driver();
     /*Read the buffer */
     error = g_ns_comms->ns_comms_read(rcvdData,sizeof(NodeShark_IO_t));
     if(NS_OK == error)
@@ -41,13 +44,6 @@ void ns_run()
         }
     }
     
-}
-
-/* communication api setup */
-void ns_comms_driver(ns_comms_api_instance_t* user_comms)
-{
-    g_ns_comms = user_comms;
-    g_ns_comms->ns_comms_open();
 }
 
 /* IO api setup */

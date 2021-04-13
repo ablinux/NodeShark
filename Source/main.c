@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "NodeSharkIO.h"
-
+#include "NodeSharkComms.h"
 /* create fake comm driver */
 uint8_t fake_comms_open(void);
 uint8_t fake_comms_close(void);

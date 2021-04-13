@@ -39,15 +39,6 @@ typedef enum
     NS_ERR_CLOSE
 }ns_err_t;
 
-/* Comm API structure */
-typedef struct ns_comms
-{
-    uint8_t     (*ns_comms_open)    (void);
-    uint8_t     (*ns_comms_close)   (void);
-    uint8_t     (*ns_comms_read)    (uint8_t *data, uint8_t len);
-    uint8_t     (*ns_comms_write)   (uint8_t *data, uint8_t len);
-}ns_comms_api_instance_t;
-
 /* IO Driver API structure */
 typedef struct ns_io_driver
 {
@@ -74,14 +65,15 @@ typedef struct NodeShark_IO
     NodeShark_Data_t ns_data;
 }NodeShark_IO_t;
 
+/* NodeShark IO to access the NodeShark Comms driver apis */
+void *ns_get_comm_driver();
+
 /* Node shark Handler */
 void ns_run();
 
 /* Ack if data is available to process */
 uint8_t ns_available();
 
-/* setup the user comm driver */
-void ns_comms_driver(ns_comms_api_instance_t*);
 /* IO api setup */
 void ns_io_driver(ns_io_driver_t * );
 
